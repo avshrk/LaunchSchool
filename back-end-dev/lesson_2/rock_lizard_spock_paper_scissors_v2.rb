@@ -1,13 +1,16 @@
 VALID_CHOICES = {'ro' => 'rock','pa' => 'paper','sc'=> 'scissors','sp'=> 'spock','li'=> 'lizard'}
 WINNERS = { ro: %w(sc li), pa:%w(ro sp) , sc: %w(pa li), li: %w(pa sp), sp: %w(ro sc) }
+PLYR = 1
+CMPTR = 2
+TIE = 0
 
 def display_results(winner)
   case winner
-  when 0
+  when TIE
     prompt("It is a tie.")
-  when 1
+  when PLYR
     prompt("You won.")
-  when 2
+  when CMPTR
     prompt("Computer won.")
   end
 end
@@ -25,8 +28,8 @@ def prompt(msg)
 end
 
 def beats(player, computer)
-  return 0 if player == computer
-  WINNERS[player.to_sym].include?(computer) ? 1 : 2
+  return TIE if player == computer
+  WINNERS[player.to_sym].include?(computer) ? PLYR : CMPTR
 end
 
 loop do
