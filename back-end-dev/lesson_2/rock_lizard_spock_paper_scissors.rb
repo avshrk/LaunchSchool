@@ -1,5 +1,5 @@
-VALID_CHOICES = %w(rock paper scissors spock lizard)
-WINNERS = { rock: %w(scissors lizard), paper:%w(rock spock) , scissors: %w(paper lizard), lizard: %w(paper spock), spock: %w(rock scissors) }
+VALID_CHOICES = %w(rock paper scissors spock lizard).freeze
+WINNERS = { rock: %w(scissors lizard), paper: %w(rock spock), scissors: %w(paper lizard), lizard: %w(paper spock), spock: %w(rock scissors) }.freeze
 
 def display_results(winner)
   case winner

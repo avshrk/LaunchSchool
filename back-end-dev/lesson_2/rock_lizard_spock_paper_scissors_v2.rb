@@ -1,5 +1,5 @@
-VALID_CHOICES = {'ro' => 'rock','pa' => 'paper','sc'=> 'scissors','sp'=> 'spock','li'=> 'lizard'}
-WINNERS = { ro: %w(sc li), pa:%w(ro sp) , sc: %w(pa li), li: %w(pa sp), sp: %w(ro sc) }
+VALID_CHOICES = { 'ro' => 'rock', 'pa' => 'paper', 'sc' => 'scissors', 'sp' => 'spock', 'li' => 'lizard' }.freeze
+WINNERS = { ro: %w(sc li), pa: %w(ro sp), sc: %w(pa li), li: %w(pa sp), sp: %w(ro sc) }.freeze
 PLYR = 1
 CMPTR = 2
 TIE = 0
@@ -17,10 +17,10 @@ end
 
 def display_choices
   msg = ''
-  VALID_CHOICES.each_pair do |k,v|
-    msg += ' ' + k + ' for ' + v  + ','
+  VALID_CHOICES.each_pair do |k, v|
+    msg += ' ' + k + ' for ' + v + ','
   end
-  prompt( msg.chop + ' : ')
+  prompt(msg.chop + ' : ')
 end
 
 def prompt(msg)
@@ -35,10 +35,9 @@ end
 loop do
   choice = ''
   loop do
-    # prompt("Choose one:  #{VALID_CHOICES.join(',  ')} : ")
     display_choices
     choice = gets.chomp.downcase
-    break if VALID_CHOICES.has_key?(choice)
+    break if VALID_CHOICES.key?(choice)
     prompt("Invalid choice.")
   end
 

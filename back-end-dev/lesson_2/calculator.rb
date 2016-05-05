@@ -1,83 +1,104 @@
+require 'yaml'
+require 'pry'
+
+MSGS = YAML.load_file('calculator_msgs.yml')
+
+LANG = 'en'.freeze
+ADD = '1'.freeze
+SUB = '2'.freeze
+MUL = '3'.freeze
+DIV = '4'.freeze
 
 def prompt(msg)
-  puts "=> " + msg
+  puts "=> " + messages(msg, LANG)
 end
 
 def valid_number?(num)
-  num.to_i != 0
+  integer?(num) || float?(num)
+end
+
+def integer?(n)
+  Integer(n) rescue false
+end
+
+def float?(n)
+  Float(n) rescue false
 end
 
 def operation_to_msg(op)
+  msg = case op
+        when ADD
+          'add'
+        when SUB
+          'sub'
+        when MUL
+          'mul'
+        when DIV
+          'div'
+        end
+  msg
+end
+
+def calculate(op, number_1, number_2)
+  return 'Infinity' if number_2.to_i == 0
   case op
-  when '1'
-    'Adding'
-  when '2'
-    'Subtracting'
-  when '3'
-    'Multiplying'
-  when '4'
-    'Dividing'
+  when ADD
+    number_1.to_i + number_2.to_i
+  when SUB
+    number_1.to_i - number_2.to_i
+  when MUL
+    number_1.to_i * number_2.to_i
+  when DIV
+    number_1.to_f / number_2.to_f
   end
 end
 
-prompt "Welcome to calculator! What is your name?"
+def messages(msg, lang = 'en')
+  MSGS[lang][msg]
+end
+
+prompt 'welcome'
+prompt 'ask_name'
 name = ''
 
 loop do
   name = gets.chomp
   break unless name.empty?
-  prompt 'It is empty! Please enter a valid name.'
+  prompt 'empty'
 end
 
 loop do
   number_1 = ''
 
   loop do
-    prompt "Please enter the first number:"
+    prompt 'first_num'
     number_1 = gets.chomp
     break if valid_number? number_1
-    prompt "It is not a valid number."
+    prompt 'valid_number'
   end
 
   number_2 = ''
   loop do
-    prompt "Please enter the second number:"
+    prompt 'second_num'
     number_2 = gets.chomp
     break if valid_number? number_2
-    prompt "It is not a valid number."
+    prompt 'valid_number'
   end
 
-  operator_prompt = <<-MSG
-  What operation would you like to perform ?
-    1) Add
-    2) Subtract
-    3) Multiply
-    4) Divide
-  MSG
+  prompt 'operator_prompt'
   operator = ''
-  prompt operator_prompt
 
   loop do
     operator = gets.chomp
     break if %w(1 2 3 4).include? operator
-    prompt 'Must choose 1, 2, 3, or 4'
+    prompt 'must_choose'
   end
 
-  prompt "#{operation_to_msg(operator)} the two numbers..."
+  prompt operation_to_msg(operator)
 
-  result = case operator
-           when '1'
-             number_1.to_i + number_2.to_i
-           when '2'
-             number_1.to_i - number_2.to_i
-           when '3'
-             number_1.to_i * number_2.to_i
-           when '4'
-             number_1.to_f / number_2.to_f
-           end
-
-  prompt "The result is #{result}"
-  prompt "Do you want to perform another calculation? (y to continue)"
+  prompt "result"
+  puts calculate(operator, number_1, number_2)
+  prompt 'another'
   answer = gets.chomp
   break unless answer.downcase.start_with?('y')
 end
