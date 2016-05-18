@@ -101,8 +101,18 @@ def player_places_piece!(brd)
   brd[square] = PLY_MRK
 end
 
+def defense(brd)
+  WINNING_LINES.each do |line|
+    empty_square_count = brd.values_at(*line).count(INI_MRK)
+    player_mark_count = brd.values_at(*line).count(PLY_MRK)
+    next if (empty_square_count != 1 || player_mark_count != 2)
+    return line.select { |sqr| brd[sqr] == INI_MRK }[0]
+  end
+  nil
+end
+
 def computer_places_piece!(brd)
-  square = empty_squares(brd).sample
+  square = defense(brd) || empty_squares(brd).sample
   brd[square] = CMT_MRK
 end
 
