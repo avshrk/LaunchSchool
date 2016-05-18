@@ -3,6 +3,7 @@ require 'pry'
 PLY_MRK = 'x'.freeze
 CMT_MRK = 'o'.freeze
 INI_MRK = ' '.freeze
+CENTER_SQR = 5
 ROW_COUNT = 3
 GAME_POINT = 2
 PLAYERS = { PLY_MRK => 'You', CMT_MRK => 'Computer' }.freeze
@@ -101,18 +102,31 @@ def player_places_piece!(brd)
   brd[square] = PLY_MRK
 end
 
-def defense(brd)
+def computer_move(brd, mark)
   WINNING_LINES.each do |line|
     empty_square_count = brd.values_at(*line).count(INI_MRK)
-    player_mark_count = brd.values_at(*line).count(PLY_MRK)
-    next if (empty_square_count != 1 || player_mark_count != 2)
+    mark_count = brd.values_at(*line).count(mark)
+    next if (empty_square_count != 1 || mark_count != 2)
     return line.select { |sqr| brd[sqr] == INI_MRK }[0]
   end
   nil
 end
 
+def defense(brd)
+  computer_move(brd,PLY_MRK)
+end
+
+def offense(brd)
+  computer_move(brd,CMT_MRK)
+end
+
+def center(brd)
+ return CENTER_SQR if  brd[CENTER_SQR] == INI_MRK
+ nil
+end
+
 def computer_places_piece!(brd)
-  square = defense(brd) || empty_squares(brd).sample
+  square = offense(brd) || defense(brd) || center(brd) ||  empty_squares(brd).sample
   brd[square] = CMT_MRK
 end
 
