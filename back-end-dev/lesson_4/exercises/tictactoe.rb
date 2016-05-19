@@ -1,4 +1,5 @@
 require 'pry'
+require 'byebug'
 
 PLY_MRK = 'x'.freeze
 CMT_MRK = 'o'.freeze
@@ -6,8 +7,9 @@ INI_MRK = ' '.freeze
 CENTER_SQR = 5
 ROW_COUNT = 3
 GAME_POINT = 2
+CHOOSE = true
 PLAYERS = { PLY_MRK => 'You', CMT_MRK => 'Computer' }.freeze
-
+# PLAYER_FIRST = false
 WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] +
                 [[1, 4, 7], [2, 5, 8], [3, 6, 9]] +
                 [[1, 5, 9], [3, 5, 7]].freeze
@@ -44,7 +46,7 @@ end
 def continue_playing
   prompt 'Do you want to play again ? (y/n)'
   answer = gets.chomp.downcase
-  true ? answer.start_with?('y') : false
+  answer.start_with?('y')
 end
 
 def empty_squares(brd)
@@ -106,27 +108,27 @@ def computer_move(brd, mark)
   WINNING_LINES.each do |line|
     empty_square_count = brd.values_at(*line).count(INI_MRK)
     mark_count = brd.values_at(*line).count(mark)
-    next if (empty_square_count != 1 || mark_count != 2)
+    next if empty_square_count != 1 || mark_count != 2
     return line.select { |sqr| brd[sqr] == INI_MRK }[0]
   end
   nil
 end
 
 def defense(brd)
-  computer_move(brd,PLY_MRK)
+  computer_move(brd, PLY_MRK)
 end
 
 def offense(brd)
-  computer_move(brd,CMT_MRK)
+  computer_move(brd, CMT_MRK)
 end
 
 def center(brd)
- return CENTER_SQR if  brd[CENTER_SQR] == INI_MRK
- nil
+  return CENTER_SQR if brd[CENTER_SQR] == INI_MRK
+  nil
 end
 
 def computer_places_piece!(brd)
-  square = offense(brd) || defense(brd) || center(brd) ||  empty_squares(brd).sample
+  square = offense(brd) || defense(brd) || center(brd) || empty_squares(brd).sample
   brd[square] = CMT_MRK
 end
 
@@ -150,26 +152,44 @@ def increase_winner_score(w_count, brd)
   w_count[detect_winner(brd)] += 1
 end
 
-def play_session(w_count, brd)
+def place_piece(brd, cur_player)
+  cur_player == PLAYERS[PLY_MRK] ? player_places_piece!(brd) : computer_places_piece!(brd)
+end
+
+def play_session(w_count, brd, current_player)
   loop do
-    player_places_piece!(brd)
-    break if someone_won?(brd) || board_full?(brd)
-    computer_places_piece!(brd)
+    place_piece(brd, current_player)
+    current_player = alternate_current_player(current_player)
     display_board(brd)
-    display_current_score(w_count)
     break if someone_won?(brd) || board_full?(brd)
   end
   increase_winner_score(w_count, brd) if someone_won?(brd)
   display_result(brd)
+  display_current_score(w_count)
+end
+
+def who_plays_first
+  prompt "Would you like to go first ? (y for yes, any key for no)?"
+  return PLAYERS[PLY_MRK] if gets.chomp.downcase.start_with?('y')
+  PLAYERS[CMT_MRK]
+end
+
+def alternate_current_player(player)
+  PLAYERS[PLY_MRK] == player ? PLAYERS[CMT_MRK] : PLAYERS[PLY_MRK]
 end
 
 def play_game
   win_count = { CMT_MRK => 0, PLY_MRK => 0 }
+  current_player = PLAYERS[PLY_MRK]
+
+  if CHOOSE
+    current_player = who_plays_first
+  end
   loop do
     board = initialize_board
     display_board(board)
     display_current_score(win_count)
-    play_session(win_count, board)
+    play_session(win_count, board, current_player)
     break if game_point_reached?(win_count)
     start_over
   end
