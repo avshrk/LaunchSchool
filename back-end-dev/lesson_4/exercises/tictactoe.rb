@@ -6,7 +6,7 @@ CMT_MRK = 'o'.freeze
 INI_MRK = ' '.freeze
 CENTER_SQR = 5
 ROW_COUNT = 3
-GAME_POINT = 2
+GAME_POINT = 5
 CHOOSE = true
 PLAYERS = { PLY_MRK => 'You', CMT_MRK => 'Computer' }.freeze
 # PLAYER_FIRST = false
@@ -34,13 +34,10 @@ end
 
 def start_over
   print 'Starting over'
-  print '.'
-  sleep(1)
-  print '.'
-  sleep(1)
-  print '.'
-  sleep(1)
-  puts ''
+  4.times do
+    print '.'
+    sleep(1)
+  end
 end
 
 def continue_playing
