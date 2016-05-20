@@ -6,7 +6,7 @@ COMPUTER_MARK = 'o'.freeze
 INITIAL_MARK = ' '.freeze
 CENTER_SQUARE = 5
 ROW_COUNT = 3
-GAME_POINT = 2
+GAME_POINT = 5
 CHOOSE = true
 PLAYERS = { PLAYER_MARK => 'You', COMPUTER_MARK => 'Computer' }.freeze
 WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] +
