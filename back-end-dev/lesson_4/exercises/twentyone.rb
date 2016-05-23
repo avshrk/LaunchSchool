@@ -74,7 +74,7 @@ end
 def display_cards(cards)
   hand = ''
   cards.each do |each_card|
-    hand += each_card[1].to_s + ' '
+    hand += each_card[1] + ' '
   end
   hand
 end
@@ -121,10 +121,11 @@ def dealer_stops?(hand)
 end
 
 def dealer_plays(hand, pre_cards)
+  prompt display_cards(hand)
   loop do
     break if busted?(hand) || dealer_stops?(hand)
     hand << deal_uniq_card(pre_cards)
-    prompt  display_cards(hand)
+    prompt display_cards(hand)
     sleep(1)
   end
 end
@@ -154,7 +155,7 @@ def tie?(player_cards, dealer_cards)
 end
 
 def dealers_turn(dealer_hand, out_hands)
-  prompt display_cards(dealer_hand)
+  prompt "Dealers Turn : "
   loop do
     dealer_plays(dealer_hand, out_hands)
     break if busted?(dealer_hand) || dealer_stops?(dealer_hand)
@@ -169,6 +170,24 @@ def players_turn(player_hand, out_hands)
   end
 end
 
+def display_winner(player_hand, dealer_hand)
+  player_total = calculate_hand(player_hand)
+  if player_total > TWENTY_ONE
+    prompt "Busted!! "
+    prompt "Dealer's Hand: #{display_cards(dealer_hand)}"
+  end
+  prompt "Dealers Total : #{calculate_hand(dealer_hand)} "
+  prompt "Your Total : #{player_total}"
+
+  if tie?(player_hand, dealer_hand)
+    prompt "It is a tie!"
+  elsif player_won?(player_hand, dealer_hand)
+    prompt "You Won!!"
+  else
+    prompt "Dealer Won!! "
+  end
+end
+
 def deal_hands(player_hand, dealer_hand)
   deal_hand(player_hand, player_hand + dealer_hand)
   deal_hand(dealer_hand, player_hand + dealer_hand)
@@ -180,19 +199,6 @@ def deal_cards(player_hand, dealer_hand)
   prompt "Dealer Card: #{display_cards(hide_dealer_first_card(dealer_hand))} "
 end
 
-def display_winner(player_hand, dealer_hand)
-  prompt "Dealers Total : #{calculate_hand(dealer_hand)} "
-  prompt "Your Total : #{calculate_hand(player_hand)}"
-
-  if tie?(player_hand, dealer_hand)
-    prompt "It is a tie!"
-  elsif player_won?(player_hand, dealer_hand)
-    prompt "You Won!!"
-  else
-    prompt "Dealer Won!! "
-  end
-end
-
 def twenty_one
   loop do
     system_clear
@@ -202,7 +208,6 @@ def twenty_one
     prompt "Lets Play Black Jack"
     deal_cards(player_hand, dealer_hand)
     players_turn(player_hand, player_hand + dealer_hand)
-    prompt "Dealers Hand : #{display_cards(dealer_hand)} "
 
     unless busted?(player_hand)
       prompt "You chose to stay. Your Total : #{calculate_hand(player_hand)}"
