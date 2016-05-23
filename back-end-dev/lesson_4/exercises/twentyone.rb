@@ -154,11 +154,11 @@ def tie?(player_cards, dealer_cards)
 end
 
 def dealers_turn(dealer_hand, out_hands)
+  prompt display_cards(dealer_hand)
   loop do
     dealer_plays(dealer_hand, out_hands)
     break if busted?(dealer_hand) || dealer_stops?(dealer_hand)
   end
-  display_cards(dealer_hand)
 end
 
 def players_turn(player_hand, out_hands)
@@ -166,16 +166,6 @@ def players_turn(player_hand, out_hands)
     break if busted?(player_hand) || stay?
     player_hand << deal_uniq_card(out_hands)
     prompt display_cards(player_hand)
-  end
-end
-
-def display_winner(player_hand, dealer_hand)
-  return "It is a tie!" if tie?(player_hand, dealer_hand)
-
-  if player_won?(player_hand, dealer_hand)
-    return "You Won!!"
-  else
-    return "Dealer Won!! "
   end
 end
 
@@ -190,6 +180,19 @@ def deal_cards(player_hand, dealer_hand)
   prompt "Dealer Card: #{display_cards(hide_dealer_first_card(dealer_hand))} "
 end
 
+def display_winner(player_hand, dealer_hand)
+  prompt "Dealers Total : #{calculate_hand(dealer_hand)} "
+  prompt "Your Total : #{calculate_hand(player_hand)}"
+
+  if tie?(player_hand, dealer_hand)
+    prompt "It is a tie!"
+  elsif player_won?(player_hand, dealer_hand)
+    prompt "You Won!!"
+  else
+    prompt "Dealer Won!! "
+  end
+end
+
 def twenty_one
   loop do
     system_clear
@@ -201,16 +204,13 @@ def twenty_one
     players_turn(player_hand, player_hand + dealer_hand)
     prompt "Dealers Hand : #{display_cards(dealer_hand)} "
 
-    if busted?(player_hand)
-      prompt "Busted!! Your Total : #{calculate_hand(player_hand)}"
-    else
+    unless busted?(player_hand)
       prompt "You chose to stay. Your Total : #{calculate_hand(player_hand)}"
       out_cards = player_hand + dealer_hand
-      prompt "Dealer Hand: #{dealers_turn(dealer_hand, out_cards)}"
+      dealers_turn(dealer_hand, out_cards)
     end
 
-    prompt "Dealer's Total : #{calculate_hand(dealer_hand)}"
-    prompt display_winner(player_hand, dealer_hand)
+    display_winner(player_hand, dealer_hand)
     break unless play_again?
   end
 end
