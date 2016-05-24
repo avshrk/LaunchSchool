@@ -1,19 +1,22 @@
 require 'byebug'
 require 'pry'
 
-DECK =  { 'Suite' => ['H', 'D', 'C', 'S'],
-          'Value' => ['2', '3', '4', '5', '6', '7', '8'] +
-                     ['9', '10', 'J', 'Q', 'K', 'A'] }.freeze
-SUITE = 0
-VALUE = 1
+SUITS = ['H', 'D', 'S', 'C'].freeze
+VALUES = ['2', '3', '4', '5', '6', '7', '8', '9', '10'] +
+         ['J', 'Q', 'K', 'A'].freeze
+
 ACE = 'A'.freeze
 FACE_CARD = 10
-ACE_ONE =  1
-ACE_ELEVEN = 11
-FIRST_HAND = 1
-TWENTY_ONE = 21
-SEVENTEEN = 17
-TEN = 10
+ACE_MAX = 11
+WINNING_POINT = 21
+LOWER_BOUND = 17
+ACE_GAP = 10
+ROUND = 2
+WAIT_TIME = 9
+
+def initialize_deck
+  SUITS.product(VALUES).shuffle
+end
 
 def prompt(str)
   puts "=> #{str}"
@@ -23,44 +26,31 @@ def system_clear
   system('clear') || system('cls')
 end
 
-def draw_card
-  [DECK['Suite'].sample, DECK['Value'].sample]
-end
-
-def already_drawn?(pre_draws, new_draw)
-  pre_draws.include?(new_draw)
-end
-
-def deal_uniq_card(pre_draws)
-  new_draw = draw_card
-  loop do
-    break unless already_drawn?(pre_draws, new_draw)
-    new_draw = draw_card
-  end
-  new_draw
-end
-
 def face_card?(card)
-  card[VALUE] != card[VALUE].to_i.to_s
-end
-
-def numeric_card?(card)
-  card[VALUE] == card[VALUE].to_i.to_s
+  card[1].to_i == 0
 end
 
 def ace_card?(card)
-  card[VALUE] == ACE
+  card[1] == ACE
+end
+
+def ace_count(cards)
+  cards.flatten.count(ACE)
 end
 
 def get_card_value(card)
-  return ACE_ONE if ace_card?(card)
+  return ACE_MAX if ace_card?(card)
   return FACE_CARD if face_card?(card)
-  card[VALUE].to_i
+  card[1].to_i
 end
 
-def get_highest_sum(cards, cards_sum)
-  return cards_sum unless ace_exist?(cards)
-  (cards_sum + TEN) <= TWENTY_ONE ? (cards_sum + TEN) : cards_sum
+def adjust_aces(cards, cards_sum)
+  ace_count = ace_count(cards)
+  ace_count.times do
+    cards_sum -= ACE_GAP
+    return cards_sum if cards_sum <= WINNING_POINT
+  end
+  cards_sum
 end
 
 def calculate_hand(cards)
@@ -68,19 +58,13 @@ def calculate_hand(cards)
   cards.each do |each_card|
     total_card_value += get_card_value(each_card)
   end
-  get_highest_sum(cards, total_card_value)
+  return total_card_value unless ace_exist?(cards)
+  return total_card_value if total_card_value <= WINNING_POINT
+  adjust_aces(cards, total_card_value)
 end
 
 def display_cards(cards)
-  hand = ''
-  cards.each do |each_card|
-    hand += each_card[1] + ' '
-  end
-  hand
-end
-
-def deal_hand(cards, dealt_cards)
-  2.times { cards << deal_uniq_card(dealt_cards) }
+  cards.map { |card| card[1] }.join(' ')
 end
 
 def valid?(choices, given)
@@ -105,6 +89,17 @@ def inquire_player(message, valid_choices)
   answer
 end
 
+def start_over
+  print 'Starting over'
+  passed_seconds = 0
+  left_time = WAIT_TIME
+  WAIT_TIME.times do
+    print " #{left_time - passed_seconds}"
+    sleep(1)
+    passed_seconds += 1
+  end
+end
+
 def stay?
   message = "Would you like to stay or hit ? ( stay/hit )"
   answer =  inquire_player(message, ['stay', 'hit'])
@@ -112,22 +107,12 @@ def stay?
 end
 
 def busted?(hand)
-  calculate_hand(hand) > TWENTY_ONE
+  calculate_hand(hand) > WINNING_POINT
 end
 
 def dealer_stops?(hand)
   hand_value = calculate_hand(hand)
-  (hand_value > 16 && hand_value < 22)
-end
-
-def dealer_plays(hand, pre_cards)
-  prompt display_cards(hand)
-  loop do
-    break if busted?(hand) || dealer_stops?(hand)
-    hand << deal_uniq_card(pre_cards)
-    prompt display_cards(hand)
-    sleep(1)
-  end
+  hand_value >= LOWER_BOUND && hand_value <= WINNING_POINT
 end
 
 def play_again?
@@ -145,7 +130,6 @@ def ace_exist?(cards)
 end
 
 def player_won?(player_cards, dealer_cards)
-  return nil if busted?(player_cards)
   return true if busted?(dealer_cards)
   calculate_hand(player_cards) > calculate_hand(dealer_cards)
 end
@@ -154,70 +138,111 @@ def tie?(player_cards, dealer_cards)
   calculate_hand(player_cards) == calculate_hand(dealer_cards)
 end
 
-def dealers_turn(dealer_hand, out_hands)
+def dealers_turn(hand, deck)
   prompt "Dealers Turn : "
+  prompt display_cards(hand)
   loop do
-    dealer_plays(dealer_hand, out_hands)
-    break if busted?(dealer_hand) || dealer_stops?(dealer_hand)
+    break if busted?(hand) || dealer_stops?(hand)
+    hand << deal_card(deck)
+    prompt display_cards(hand)
+    sleep(1)
   end
 end
 
-def players_turn(player_hand, out_hands)
+def players_turn(player_hand, deck)
   loop do
     break if busted?(player_hand) || stay?
-    player_hand << deal_uniq_card(out_hands)
+    player_hand << deal_card(deck)
     prompt display_cards(player_hand)
   end
 end
 
-def display_winner(player_hand, dealer_hand)
-  player_total = calculate_hand(player_hand)
-  if player_total > TWENTY_ONE
-    prompt "Busted!! "
-    prompt "Dealer's Hand: #{display_cards(dealer_hand)}"
-  end
-  prompt "Dealers Total : #{calculate_hand(dealer_hand)} "
-  prompt "Your Total : #{player_total}"
-
+def display_winner(player_hand, dealer_hand, rounds)
+  puts ''
   if tie?(player_hand, dealer_hand)
     prompt "It is a tie!"
   elsif player_won?(player_hand, dealer_hand)
     prompt "You Won!!"
+    rounds[:player] += 1
   else
     prompt "Dealer Won!! "
+    rounds[:dealer] += 1
   end
+  puts ''
+  prompt "Dealer:#{calculate_hand(dealer_hand)}"
+  prompt "You:#{calculate_hand(player_hand)}"
+  puts ''
 end
 
-def deal_hands(player_hand, dealer_hand)
-  deal_hand(player_hand, player_hand + dealer_hand)
-  deal_hand(dealer_hand, player_hand + dealer_hand)
+def deal_card(deck)
+  deck.pop
 end
 
-def deal_cards(player_hand, dealer_hand)
-  deal_hands(player_hand, dealer_hand)
-  prompt "Your Cards: #{display_cards(player_hand)}"
-  prompt "Dealer Card: #{display_cards(hide_dealer_first_card(dealer_hand))} "
+def deal_hand(hand, deck)
+  2.times { hand << deal_card(deck) }
 end
 
+def display_game_winner(rounds)
+  puts ''
+  prompt 'Game Over'
+  if rounds[:player] > rounds[:dealer]
+    prompt "You won the Game "
+  else
+    prompt "Dealer won the Game"
+  end
+  prompt "#{rounds.values.max} to  #{rounds.values.min}"
+  puts ''
+end
+
+def display_current_game_score(rounds)
+  prompt "Current Game Score"
+  prompt "You:#{rounds[:player]}, Dealer:#{rounds[:dealer]}\n"
+  puts ''
+end
+
+# rubocop:disable Metrics/MethodLength, Metrics/AbcSize:
 def twenty_one
+  rounds = { player: 0, dealer: 0 }
   loop do
     system_clear
     player_hand = []
     dealer_hand = []
-
     prompt "Lets Play Black Jack"
-    deal_cards(player_hand, dealer_hand)
-    players_turn(player_hand, player_hand + dealer_hand)
+    display_current_game_score(rounds)
 
-    unless busted?(player_hand)
-      prompt "You chose to stay. Your Total : #{calculate_hand(player_hand)}"
-      out_cards = player_hand + dealer_hand
-      dealers_turn(dealer_hand, out_cards)
+    deck = initialize_deck
+    deal_hand(player_hand, deck)
+    deal_hand(dealer_hand, deck)
+    prompt "Your Hand:"
+    prompt display_cards(player_hand)
+    puts ''
+    prompt "Dealer's Hand:"
+    prompt display_cards(hide_dealer_first_card(dealer_hand))
+    puts ''
+    players_turn(player_hand, deck)
+
+    if busted?(player_hand)
+      prompt "Busted!"
+      prompt "Dealer's Hand:"
+      prompt display_cards(dealer_hand)
+    else
+      prompt "You chose to stay. Your Total: #{calculate_hand(player_hand)}"
+      dealers_turn(dealer_hand, deck)
     end
 
-    display_winner(player_hand, dealer_hand)
-    break unless play_again?
+    display_winner(player_hand, dealer_hand, rounds)
+
+    if rounds.values.include?(ROUND)
+      display_game_winner(rounds)
+      break unless play_again?
+      rounds[:player] = 0
+      rounds[:dealer] = 0
+    end
+
+    start_over
   end
 end
+# rubocop:enable Metrics/MethodLength, Metrics/AbcSize:
+#
 
 twenty_one
