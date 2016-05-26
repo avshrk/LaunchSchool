@@ -10,4 +10,4 @@ def equal_to_four(x)
   end
 end
 
-puts equal_to_four(x)
+equal_to_four(x)

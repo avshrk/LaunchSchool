@@ -4,12 +4,8 @@ puts 'Enter a string:'
 str = gets.chomp
 
 def all_caps(str)
-  if str.length > 10
-    return str.upcase
-  else
-    return str
-  end
+    return str.upcase if str.size > 10
+    str
 end
-
 
 puts all_caps(str)
