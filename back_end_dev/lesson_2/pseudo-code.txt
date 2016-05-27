@@ -1,0 +1,62 @@
+1. a method that returns the sum of two integers:
+
+Given Two Integers
+Add integers
+return the result
+
+START
+SET first_number
+SET second_number
+PRINT first_number + second_number
+END
+----------------------------
+2. a method that takes an array of strings, and returns a string that is all those strings concatenated together
+
+Given array of strings
+Iterate through the string array
+ - save first value as new string
+ - concatinate each value to new string
+After iteration completed print new string
+
+
+START
+SET new_string = ''
+WHILE array of strings has elements
+  new_string = new_string + each element
+PRINT new_string
+END
+-----------------------------
+3.a method that takes an array of integers, and returns a new array with every other element
+
+Given array of integers
+Initialize iterator value to 1
+Initialize new array
+Iterate through the array of integers
+ - if iterator divided by 2 with remainder equal to 0
+   - do nothing
+ - else
+   - add integer element to new array
+
+ increment iterator
+
+After iteration complete return new integer array
+
+START
+# Given a collection of integers called integers_array
+SET every_other_integer_ar
+SET iterator = 1
+WHILE integers_array has elements
+  IF current array element % 2 == 0
+    next iteration
+  ELSE
+    every_other_integer_ar = exery_other_integer_ar + curret array element
+
+  iterator = iterator + 1
+
+PRINT every_other_integer_ar
+END
+
+
+
+
+
