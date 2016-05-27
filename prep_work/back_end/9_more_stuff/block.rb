@@ -1,5 +1,4 @@
 
-
 def take_block(&b)
   b.call
 end

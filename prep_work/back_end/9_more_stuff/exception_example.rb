@@ -8,6 +8,5 @@ names.each do |n|
     puts n.length
   rescue
     puts 'error happened'
-
   end
 end
