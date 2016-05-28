@@ -1,10 +1,11 @@
 en:
   welcome: "Welcome to Calculator"
+  hi: "Hi "
   ask_name: "Please enter your name: "
   empty: 'It is empty! Please enter a valid name.'
   first_num: 'Please enter the first number:'
   second_num: "Please enter the second number:"
-  valid_name: "It is not a valid number."
+  valid_name: "It is not a valid name."
   valid_number: "It is not a valid number."
   another: "Do you want to perform another calculation? (y to continue)"
   must_choose: 'Must choose 1, 2, 3, or 4'
@@ -14,6 +15,7 @@ en:
   sub: "Subtracting the two numbers..."
   mul: "Multiplying the two numbers..."
   div: "Dividing the two numbers..."
+  goodbye: "Goodbye"
 
 es:
   welcome: "Bienvenido a la calculadora! Entre su nombre:"

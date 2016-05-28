@@ -1,5 +1,6 @@
 require 'yaml'
 require 'pry'
+require 'byebug'
 
 MSGS = YAML.load_file('calculator_msgs.yml')
 
@@ -10,11 +11,7 @@ MUL = '3'.freeze
 DIV = '4'.freeze
 
 def prompt(msg)
-  puts "=> " + messages(msg, LANG)
-end
-
-def valid_number?(num)
-  integer?(num) || float?(num)
+  puts "=> " << msg
 end
 
 def integer?(n)
@@ -25,22 +22,25 @@ def float?(n)
   Float(n) rescue false
 end
 
+def valid_number?(n)
+  return false if n.empty?
+  integer?(n) || float?(n)
+end
+
 def operation_to_msg(op)
-  msg = case op
-        when ADD
-          'add'
-        when SUB
-          'sub'
-        when MUL
-          'mul'
-        when DIV
-          'div'
-        end
-  msg
+  case op
+  when ADD
+    'add'
+  when SUB
+    'sub'
+  when MUL
+    'mul'
+  when DIV
+    'div'
+  end
 end
 
 def calculate(op, number_1, number_2)
-  return 'Infinity' if number_2.to_i == 0
   case op
   when ADD
     number_1.to_i + number_2.to_i
@@ -49,7 +49,7 @@ def calculate(op, number_1, number_2)
   when MUL
     number_1.to_i * number_2.to_i
   when DIV
-    number_1.to_f / number_2.to_f
+    number_2.to_i == 0 ? 0 : number_1.to_f / number_2.to_f
   end
 end
 
@@ -57,48 +57,64 @@ def messages(msg, lang = 'en')
   MSGS[lang][msg]
 end
 
-prompt 'welcome'
-prompt 'ask_name'
-name = ''
-
-loop do
-  name = gets.chomp
-  break unless name.empty?
-  prompt 'empty'
+def user_name
+  prompt messages('ask_name')
+  name = nil
+  loop do
+    name = gets.chomp
+    break unless name.empty?
+    prompt messages('empty')
+  end
+  name
 end
 
-loop do
-  number_1 = ''
-
+def given_number
+  number = nil
   loop do
-    prompt 'first_num'
-    number_1 = gets.chomp
-    break if valid_number? number_1
-    prompt 'valid_number'
+    number = gets.chomp
+    # byebug
+    break if valid_number?(number)
+    prompt messages('valid_number')
   end
+  number
+end
 
-  number_2 = ''
-  loop do
-    prompt 'second_num'
-    number_2 = gets.chomp
-    break if valid_number? number_2
-    prompt 'valid_number'
-  end
-
-  prompt 'operator_prompt'
+def operation_to_perform
+  prompt messages('operator_prompt')
   operator = ''
-
   loop do
     operator = gets.chomp
     break if %w(1 2 3 4).include? operator
-    prompt 'must_choose'
+    prompt messages('must_choose')
   end
-
-  prompt operation_to_msg(operator)
-
-  prompt "result"
-  puts calculate(operator, number_1, number_2)
-  prompt 'another'
-  answer = gets.chomp
-  break unless answer.downcase.start_with?('y')
+  operator
 end
+
+def continue?
+  prompt messages('another')
+  gets.chomp.downcase.start_with?('y')
+end
+
+def greetings
+  prompt messages('welcome')
+  name = user_name
+  prompt messages('hi') + name
+end
+
+def calculator
+  greetings
+  loop do
+    prompt messages('first_num')
+    number_1 = given_number
+
+    prompt messages('second_num')
+    number_2 = given_number
+    operator = operation_to_perform
+    prompt messages(operation_to_msg(operator))
+    prompt messages("result") + calculate(operator, number_1, number_2).to_s
+
+    break unless continue?
+  end
+end
+
+calculator
