@@ -1,10 +1,9 @@
-
-def monthly_rate(annual_rate)
+def monthly_rate
   annual_rate / 1200
 end
 
-def loan_duration_months(loan_annual)
-  loan_annual * 12
+def loan_duration_months
+  loan_duration_years * 12
 end
 
 def payments(amount, duration, rate)
@@ -41,7 +40,7 @@ def annual_rate
   annual_rate
 end
 
-def loan_duration
+def loan_duration_years
   loan_duration = 0
 
   prompt('Enter loan duration in years: ')
@@ -64,10 +63,9 @@ def car_loan_calculator
   prompt("Car Loan Calculator\n")
 
   loop do
-
-    prompt("Your monthly payment: " + payments(loan_amount, loan_duration_months(loan_duration), monthly_rate(annual_rate)).round(2).to_s + "\n")
-
+    prompt("Your monthly payment: " + payments(loan_amount, loan_duration_months, monthly_rate).round(2).to_s + "\n")
     break unless continue?
   end
 end
+
 car_loan_calculator
