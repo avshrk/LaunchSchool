@@ -1,16 +1,16 @@
 VALID_CHOICES = { 'ro' => 'rock', 'pa' => 'paper', 'sc' => 'scissors', 'sp' => 'spock', 'li' => 'lizard' }.freeze
 WINNERS = { ro: %w(sc li), pa: %w(ro sp), sc: %w(pa li), li: %w(pa sp), sp: %w(ro sc) }.freeze
-PLYR = 1
-CMPT = 2
+PLAYER = 1
+COMPUTER = 2
 TIE = 0
 
 def display_results(winner)
   case winner
   when TIE
     prompt("It is a tie.")
-  when PLYR
+  when PLAYER
     prompt("You won.")
-  when CMPT
+  when COMPUTER
     prompt("Computer won.")
   end
 end
@@ -29,35 +29,52 @@ end
 
 def beats(user, computer)
   return TIE if user == computer
-  WINNERS[user.to_sym].include?(computer) ? PLYR : CMPT
+  WINNERS[user.to_sym].include?(computer) ? PLAYER : COMPUTER
 end
 
 def count(plyrs, winner)
   plyrs[winner] += 1
 end
 
-players = []
-players[TIE] = 0
-players[PLYR] = 0
-players[CMPT] = 0
+def valid?(choice)
+  VALID_CHOICES.include?(choice)
+end
 
-loop do
+def choice
   choice = ''
   loop do
     display_choices
     choice = gets.chomp.downcase
-    break if VALID_CHOICES.key?(choice)
+    break if valid?(choice)
     prompt("Invalid choice.")
   end
-
-  computer_choice = VALID_CHOICES.keys.sample
-
-  prompt("You chose #{VALID_CHOICES[choice]};  computer chose #{VALID_CHOICES[computer_choice]} ")
-  winner = beats(choice, computer_choice)
-  count(players, winner)
-
-  display_results(winner)
-  break if players[PLYR] == 5 || players[CMPT] == 5
+  choice
 end
-prompt("Game Over")
-prompt("Score ==> You:#{players[PLYR]} | Computer:#{players[CMPT]}")
+
+def game_over?(players)
+  players[PLAYER] == 5 || players[COMPUTER] == 5
+end
+
+def display_score(players)
+  prompt("Score ==> You:#{players[PLAYER]} | Computer:#{players[COMPUTER]}")
+end
+
+def rock_lizard_spock_paper_scissors_v3
+  players = Array.new(3, 0)
+
+  loop do
+    user_choice = choice
+    computer_choice = VALID_CHOICES.keys.sample
+
+    prompt("You chose #{VALID_CHOICES[user_choice]};  computer chose #{VALID_CHOICES[computer_choice]} ")
+    winner = beats(user_choice, computer_choice)
+    count(players, winner)
+
+    display_results(winner)
+    display_score(players)
+    break if game_over?(players)
+  end
+  prompt("Game Over")
+end
+
+rock_lizard_spock_paper_scissors_v3

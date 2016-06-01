@@ -15,11 +15,15 @@ def prompt(msg)
 end
 
 def integer?(n)
-  Integer(n) rescue false
+  Integer(n)
+rescue
+  false
 end
 
 def float?(n)
-  Float(n) rescue false
+  Float(n)
+rescue
+  false
 end
 
 def valid_number?(n)
@@ -40,7 +44,7 @@ def operation_to_msg(op)
   end
 end
 
-def calculate(op, number_1, number_2)
+def calculate(number_1, number_2, op)
   case op
   when ADD
     number_1.to_i + number_2.to_i
@@ -68,11 +72,11 @@ def user_name
   name
 end
 
-def given_number
+def number(message)
+  prompt message
   number = nil
   loop do
     number = gets.chomp
-    # byebug
     break if valid_number?(number)
     prompt messages('valid_number')
   end
@@ -95,24 +99,21 @@ def continue?
   gets.chomp.downcase.start_with?('y')
 end
 
-def greetings
+def display_greetings
   prompt messages('welcome')
   name = user_name
   prompt messages('hi') + name
 end
 
 def calculator
-  greetings
+  display_greetings
   loop do
-    prompt messages('first_num')
-    number_1 = given_number
-
-    prompt messages('second_num')
-    number_2 = given_number
+    first_number = number(messages('first_num'))
+    second_number = number(messages('second_num'))
     operator = operation_to_perform
     prompt messages(operation_to_msg(operator))
-    prompt messages("result") + calculate(operator, number_1, number_2).to_s
-
+    result = calculate(first_number, second_number, operator)
+    prompt messages("result") + result.to_s
     break unless continue?
   end
 end
