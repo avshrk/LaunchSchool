@@ -7,7 +7,7 @@ def loan_duration_months(loan_annual)
   loan_annual * 12
 end
 
-def payments(rate, duration, amount)
+def payments(amount, duration, rate)
   amount * (rate * (1 + rate)**duration) / (((1 + rate)**duration) - 1)
 end
 
@@ -15,7 +15,7 @@ def prompt(str)
   print "==> " + str
 end
 
-def given_loan_amount
+def loan_amount
   loan_amount = ''
   prompt('Enter loan amount (without $ sign or comma) : ')
 
@@ -28,7 +28,7 @@ def given_loan_amount
   loan_amount
 end
 
-def given_annual_rate
+def annual_rate
   annual_rate = 0
   prompt('Enter annual interest rate (6% as 6 without percent sign) : ')
 
@@ -41,7 +41,7 @@ def given_annual_rate
   annual_rate
 end
 
-def given_loan_duration
+def loan_duration
   loan_duration = 0
 
   prompt('Enter loan duration in years: ')
@@ -64,13 +64,8 @@ def car_loan_calculator
   prompt("Car Loan Calculator\n")
 
   loop do
-    loan_amount = given_loan_amount
-    annual_rate = given_annual_rate
-    monthly_rate = monthly_rate(annual_rate)
-    loan_duration = given_loan_duration
-    loan_months = loan_duration_months(loan_duration)
 
-    prompt("Your monthly payment: " + payments(monthly_rate, loan_months, loan_amount).round(2).to_s + "\n")
+    prompt("Your monthly payment: " + payments(loan_amount, loan_duration_months(loan_duration), monthly_rate(annual_rate)).round(2).to_s + "\n")
 
     break unless continue?
   end
