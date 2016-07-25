@@ -1,0 +1,49 @@
+module History
+
+  def history
+    @history ||= []
+  end
+
+  #takes an array, move and hand result (ture for win, false for non-win)
+  def history_add(move)
+    history.push move
+  end
+
+  def history_first
+    @history.first
+  end
+
+  def history_last
+    @history.last
+  end
+
+  def history_size
+    @history.size
+  end
+
+end
+
+class Tplayer
+  include History
+end
+
+t1 = Tplayer.new
+t1.history_add(['rock',true])
+t1.history_add(['rock',true])
+t1.history_add(['rock',true])
+t1.history_add(['rock',true])
+t1.history_add(['paper',true])
+t1.history_add(['rock',false])
+t1.history_add(['rock',false])
+t1.history_add(['rock',false])
+t1.history_add(['rock',false])
+t1.history_add(['rock',false])
+t1.history_add(['rock',false])
+t1.history_add(['rock',false])
+t1.history_add(['scissors',false])
+t1.history_add(['rock',false])
+t1.history_add(['rock',false])
+t1.history_add(['rock',false])
+p t1.play_count 'rock'
+p t1.win_count 'rock'
+

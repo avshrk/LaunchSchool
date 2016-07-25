@@ -1,0 +1,124 @@
+
+
+class History
+  def initialize
+    @moves = []
+  end
+
+  def add(move)
+    @moves << move
+  end
+
+  def total_number_of_moves
+    @moves.size
+  end
+
+  def moves
+    @moves
+  end
+
+  def most_winnig_move
+     freq_hash = calculate_frequency :won
+     high_frequency_move freq_hash
+  end
+
+  def most_loosing_move
+     freq_hash = calculate_frequency :lost
+     high_frequency_move freq_hash
+  end
+
+  def most_tying_move
+     freq_hash = calculate_frequency :tie
+     high_frequency_move freq_hash
+  end
+
+
+  def high_frequency_move(freq_hash)
+     descendig_ferq_hash = descending_sort
+     highest_frequency_value = freq_hash[freq_hash.keys.first]
+     tying_moves = freq_hash.select { |_,v| v == highest_frequency_value }
+     tying_moves.keys
+  end
+
+  def to_s
+    @moves.join(',')
+  end
+
+  def descending_sort(freq_arr)
+    freq_arr.sort_by { |_,value| value }.reverse.to_h
+  end
+
+  def calculate_frequency(result)
+    @moves.inject(Hash.new(0)) do |h,v|
+      h[v[0]] += 1 if v[1] == result
+      h
+    end
+  end
+end
+
+# @moves.max_by { |v| freq[v[0]] }
+# puts freq
+# m =  freq.sort_by { |_,v| v }.reverse
+# p m.first
+# puts ''
+# puts m
+# p n[n.keys.first]
+# vl =  n[n.keys.first]
+# p n.select { |_,v| v == vl }
+# puts ''
+# puts 'total win'
+# puts h1.find_frequency :won
+
+h1 = History.new
+h1.add(['z',:tie])
+
+h1.add(['p',:tie])
+h1.add(['p',:tie])
+h1.add(['p',:tie])
+h1.add(['p',:tie])
+h1.add(['p',:tie])
+
+h1.add(['r',:tie])
+h1.add(['r',:tie])
+h1.add(['r',:tie])
+h1.add(['r',:tie])
+h1.add(['r',:tie])
+
+
+h1.add(['k',:tie])
+h1.add(['k',:tie])
+h1.add(['k',:tie])
+h1.add(['k',:tie])
+h1.add(['k',:tie])
+
+h1.add(['e',:won])
+h1.add(['e',:won])
+h1.add(['e',:won])
+h1.add(['e',:won])
+h1.add(['e',:won])
+
+h1.add(['k',:won])
+h1.add(['k',:won])
+h1.add(['k',:won])
+h1.add(['k',:won])
+h1.add(['k',:won])
+
+h1.add(['r',:won])
+h1.add(['r',:won])
+h1.add(['r',:won])
+h1.add(['r',:won])
+h1.add(['r',:won])
+
+h1.add(['r',:lose])
+
+h1.add(['s',:lose])
+h1.add(['s',:lose])
+h1.add(['s',:lose])
+h1.add(['s',:lose])
+h1.add(['s',:lose])
+
+p h1.most_tying_move
+p h1.most_loosing_move
+puts 'winning'
+p h1.most_winnig_move
+
