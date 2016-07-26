@@ -17,8 +17,7 @@ module Score
   end
 
   def reset_player_scores
-    score
-    @score.keys.each do |player|
+    score.keys.each do |player|
       @score[player] = 0
     end
   end

@@ -9,7 +9,11 @@ class Computer < Player
 
   def choose(hands)
     possible_opponent_move = opponent_next_move(hands)
-    @move = possible_opponent_move.empty? ? Move.new(Move::VALUES.keys.shuffle.sample) : winner_move(possible_opponent_move.sample, hands)
+    if possible_opponent_move.empty?
+      @move =  Move.new(Move::VALUES.keys.shuffle.sample)
+    else
+      @move = winner_move(possible_opponent_move.sample, hands)
+    end
   end
 
   private
@@ -21,8 +25,16 @@ class Computer < Player
 
   def most_winner(win_moves, hands)
     computer_summary = hands.summary_by_player_by_move(@name)
-    return win_moves.sample if computer_summary[win_moves.first]['win_count'] == computer_summary[win_moves.last]['win_count']
-    computer_summary[win_moves.first]['win_count'] > computer_summary[win_moves.last]['win_count'] ? win_moves.first : win_moves.last
+
+    if computer_summary[win_moves.first]['win_count'] == computer_summary[win_moves.last]['win_count']
+      return win_moves.sample
+    end
+
+    if computer_summary[win_moves.first]['win_count'] > computer_summary[win_moves.last]['win_count']
+      return win_moves.first
+    else
+      return win_moves.last
+    end
   end
 
   def opponent_next_move(hand_history)
@@ -70,7 +82,11 @@ class Computer < Player
   end
 
   def other_player_name(hand)
-    first_player_name(hand) == @name ? second_player_name(hand) : first_player_name(hand)
+    if first_player_name(hand) == @name
+      return second_player_name(hand)
+    else
+      first_player_name(hand)
+    end
   end
 
   def first_player_name(hand)

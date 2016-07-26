@@ -15,14 +15,14 @@ class Human < Player
   end
 
   def request_name
-    n = ''
+    human_name = ''
     loop do
       puts "Please enter your name"
-      n = gets.chomp
+      human_name = gets.chomp
       break unless n.empty?
       puts "Name can not be blank."
     end
-    @name = n
+    @name = human_name
   end
 
   private

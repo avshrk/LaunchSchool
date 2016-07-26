@@ -29,9 +29,12 @@ class RSPGame
     if hand_winner.empty?
       puts "It is a tie"
     else
-      increase_score(hand_winner)
       puts "#{hand_winner} won!"
     end
+  end
+
+  def update_score
+    increase_score(Move.winner(@computer, @human))
   end
 
   def display_game_winner
@@ -64,6 +67,7 @@ class RSPGame
       record_moves
       display_moves
       display_hand_winner
+      update_score
       display_running_count
     end
   end

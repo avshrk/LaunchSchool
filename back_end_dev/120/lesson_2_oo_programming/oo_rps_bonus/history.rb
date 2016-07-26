@@ -38,7 +38,7 @@ class History
   def win_count_by(hist, move)
     count = 0
     hist.each do |hand|
-      count += 1 if hand[0] == move && hand[1] == true
+      count += 1 if hand[0] == move && hand[1]
     end
     count
   end
