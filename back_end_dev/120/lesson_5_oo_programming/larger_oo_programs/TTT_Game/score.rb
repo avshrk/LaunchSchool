@@ -1,5 +1,5 @@
 class Score
-  GAME_POINT = 2
+  GAME_POINT = 5
 
   def initialize(player_one, player_two)
     @score = {}
