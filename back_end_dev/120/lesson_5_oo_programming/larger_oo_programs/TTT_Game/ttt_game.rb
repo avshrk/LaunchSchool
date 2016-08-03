@@ -182,7 +182,7 @@ class TTTGame
   end
 
   def alternate_current_player
-    @current_player_marker = current_player_human? ? @computer.marker : @humane.marker
+    @current_player_marker = current_player_human? ? @computer.marker : @human.marker
   end
 
   def current_player_moves
