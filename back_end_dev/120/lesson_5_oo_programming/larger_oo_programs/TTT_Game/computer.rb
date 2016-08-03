@@ -100,7 +100,6 @@ class Computer < Player
   end
 
   def score(board)
-    # byebug
     return 100 if board.winning_marker == @marker
     return -100 if board.winning_marker == opponent_marker
     0
