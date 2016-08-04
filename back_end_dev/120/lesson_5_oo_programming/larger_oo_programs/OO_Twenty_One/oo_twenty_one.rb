@@ -5,9 +5,9 @@ require_relative 'player'
 require 'byebug'
 
 class TwentyOne
-  DEALER_HAND_DRAW_SLEEP = 3
+  DEALER_HAND_DRAW_SLEEP = 2
   GAME_START_SLEEP = 9
-  END_OF_TURN_SLEEP = 4
+  END_OF_TURN_SLEEP = 3
   DOT_SPEED = 1
 
   def initialize
@@ -162,7 +162,7 @@ class TwentyOne
   def turn_of(player)
     loop do
       break if busted?(player) || stay?(player)
-      timer('Drawing a Card', 3)
+      timer('Drawing a Card', DEALER_HAND_DRAW_SLEEP)
       get_card player
       show_last_card player
       display_score player
