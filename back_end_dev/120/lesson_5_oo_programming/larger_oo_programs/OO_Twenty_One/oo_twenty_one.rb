@@ -94,11 +94,11 @@ class TwentyOne
   end
 
   def player_busted?
-    @player.busted?
+    busted? @player
   end
 
   def dealer_busted?
-    @dealer.busted?
+    busted? @dealer
   end
 
   def redraw_screen
