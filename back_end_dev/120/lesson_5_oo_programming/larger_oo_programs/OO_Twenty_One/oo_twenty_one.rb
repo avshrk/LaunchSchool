@@ -43,7 +43,10 @@ class TwentyOne
 
   def play_deck
     loop do
-      break if no_more_cards?
+      if no_more_cards?
+        display_out_of_cards_notice
+        break
+      end
       deal_initial_cards
       display_dealer_initial_hand
       show_hand @player
@@ -52,9 +55,17 @@ class TwentyOne
       display_winner
       display_hands
       continue_playing?
-      clear_hands
-      redraw_screen
+      reset
     end
+  end
+
+  def reset
+    clear_hands
+    redraw_screen
+  end
+
+  def display_out_of_cards_notice
+    puts "Deck has been exausted!"
   end
 
   def continue_playing?
