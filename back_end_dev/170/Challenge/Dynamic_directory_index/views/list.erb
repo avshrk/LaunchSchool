@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title><%= @title %></title>
+
+    <link rel="stylesheet" href="stylesheets/pure-min.css">
+    <link rel="stylesheet" href="stylesheets/fonts.css">
+    <link rel="stylesheet" href="stylesheets/book_viewer.css">
+</head>
+<body>
+	<% @contents.each do |file|  %>
+		<a href="<%= file %>" ><%= file %></a><br />
+	<% end %>
+
+	<% if params[:sort] == 'desc' %>
+		<a href='/'>Ascending</a>
+	<% else %>
+		<a href='/?sort=desc' >Descending</a>
+	<% end %>
+
+</body>
+</html>
