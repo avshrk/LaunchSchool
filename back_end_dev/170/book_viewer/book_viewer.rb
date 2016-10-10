@@ -1,7 +1,7 @@
 require "sinatra"
-require "sinatra/reloader"
+require "sinatra/reloader" if development?
 require "tilt/erubis"
-require 'byebug'
+# require 'byebug'
 
 before do
 	@contents = File.readlines('data/toc.txt')
