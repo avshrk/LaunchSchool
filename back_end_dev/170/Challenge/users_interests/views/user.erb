@@ -1,0 +1,16 @@
+<h1><%= @user.capitalize %>'s Page</h1>
+<p>Email:</p>
+<%= @users[@user.to_sym][:email] %>
+<p>Interests</p>
+<ul>
+<% @users[@user.to_sym][:interests].each do |interest| %>
+	<li><%= interest %>
+	</li>
+<% end %>
+</ul>
+
+
+<% @users.each do |user, _| %>
+	<% next if user.to_s == @user.to_s %>
+	<p><a href="/<%= user %>" ><%= user %></a></p>
+<% end %>

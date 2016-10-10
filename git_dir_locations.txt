@@ -1,0 +1,26 @@
+/Users/Avshar/.oh-my-zsh/.git
+/Users/Avshar/.vim/bundle/ctrlp.vim/.git
+/Users/Avshar/.vim/bundle/hardmode/.git
+/Users/Avshar/.vim/bundle/syntastic/.git
+/Users/Avshar/.vim/bundle/tabular/.git
+/Users/Avshar/.vim/bundle/vim-airline/.git
+/Users/Avshar/.vim/bundle/vim-colors-solarized/.git
+/Users/Avshar/.vim/bundle/vim-commentary/.git
+/Users/Avshar/.vim/bundle/vim-endwise/.git
+/Users/Avshar/.vim/bundle/vim-repeat/.git
+/Users/Avshar/.vim/bundle/vim-ruby/.git
+/Users/Avshar/.vim/bundle/vim-sensible/.git
+/Users/Avshar/.vim/bundle/vim-surround/.git
+/Users/Avshar/.vim/bundle/vimwiki/.git
+/Users/Avshar/.vim/bundle/Vundle.vim/.git
+/Users/Avshar/Google Drive/MacBookAir/Documents/git_basics/.git
+/Users/Avshar/Google Drive/MacBookAir/Documents/Ruby/AmazonPortals/rbFiles/Tools/tools_bak/SampleWork/.git
+/Users/Avshar/Google Drive/MacBookAir/Documents/Ruby/LaunchSchool/.git
+/Users/Avshar/Google Drive/MacBookAir/Documents/Ruby/RailsTutorialHartl/workspace/hello_app/.git
+/Users/Avshar/Google Drive/MacBookAir/Documents/Ruby/RailsTutorialHartl/workspace/sample_app/.git
+/Users/Avshar/Google Drive/MacBookAir/Documents/Ruby/RailsTutorialHartl/workspace/toy_app/.git
+/Users/Avshar/Google Drive/MacBookAir/Documents/Ruby/SnatchAndReview/.git
+/Users/Avshar/Google Drive/MacBookAir/Documents/xmind/.git
+/usr/local/Homebrew/.git
+/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/.git
+/usr/local/Homebrew/Library/Taps/rubinius/homebrew-apps/.git
