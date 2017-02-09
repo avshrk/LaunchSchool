@@ -25,4 +25,3 @@ class Series
     digits.each_char.map(&:to_i)
   end
 end
-
