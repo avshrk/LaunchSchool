@@ -1,0 +1,116 @@
+/* undohtml.css */
+/* (CC) 2004 Tantek Celik. Some Rights Reserved.                  */
+/* http://creativecommons.org/licenses/by/2.0                     */
+/* This style sheet is licensed under a Creative Commons License. */
+/* Purpose: undo some of the default styling of common (X)HTML browsers */
+
+/* link underlines tend to make hypertext less readable,
+because underlines obscure the shapes of the lower halves of words */
+:link,:visited { text-decoration:none }
+
+/* no list-markers by default, since lists are used more often for semantics */
+ul,ol { list-style:none }
+
+/* avoid browser default inconsistent heading font-sizes */
+/* and pre/code too */
+h1,h2,h3,h4,h5,h6,pre,code { font-size:1em; }
+
+/* remove the inconsistent (among browsers) default ul,ol padding or margin  */
+/* the default spacing on headings does not match nor align with
+normal interline spacing at all, so let's get rid of it. */
+/* zero out the spacing around pre, form, body, html, p, blockquote as well */
+/* form elements are oddly inconsistent, and not quite CSS emulatable. */
+/*  nonetheless strip their margin and padding as well */
+ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,body,html,p,blockquote,fieldset,input
+{ margin:0; padding:0 }
+
+/* whoever thought blue linked image borders were a good idea? */
+a img,:link img,:visited img { border:none }
+
+/* de-italicize address */
+address { font-style:normal }
+
+/* more varnish stripping as necessary... */
+body {
+  font: normal 18px "Roboto Condensed", sans-serif;
+  color: #3e606f;
+  background-image: linear-gradient(180deg,#d2dcbf,#fcfef5);
+  background-repeat: no-repeat;
+}
+header {
+  box-sizing: border-box;
+  width: 960px ;
+  padding: 20px;
+  margin: 0 auto;
+}
+header h1 {
+  float:left;
+  padding: 50px 0 16px 113px;
+  color: #193441;
+  font-weight: normal ;
+  font-size: 36px;
+  background: transparent url("logo.png") 0 0 no-repeat ;
+}
+nav  {
+  float: right ;
+  padding: 75px 0 0 0 ;
+}
+nav li {
+  display: inline-block;
+}
+nav a {
+  display:block;
+  padding: 15px 45px ;
+  background-color: #fcfff5;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  color: #91aa9d;
+}
+nav a:hover, a.active {
+  background-color: #91aa9d;
+  color: #fcfff5;
+}
+
+main {
+  clear:both;
+  box-sizing:border-box;
+  width: 960px;
+  margin: 0 auto;
+  padding: 30px ;
+  background-color: #fff;
+  overflow: hidden;
+  box-shadow: 0 2px 10px #bebebd;
+}
+main::after {
+  content:"";
+  display:block;
+  clear:both;
+}
+
+main h1 {
+  font-weight: normal ;
+  color: #3e606f;
+  font-size: 32px;
+  margin: 30px 0 ;
+}
+
+.top img {
+  width: 100%;
+  margin: 0 0 40px 0;
+}
+
+figure  {
+  float:right;
+  padding: 0 0 20px 30px;
+}
+
+p {
+  padding: 0 0 20px 0;
+}
+footer  {
+  width: 960px;
+  margin:  0 auto;
+  padding: 15px 0;
+  font-size: 14px ;
+
+}
