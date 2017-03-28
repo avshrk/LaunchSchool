@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <title></title>
+    <meta charset="UTF-8" />
+    <link type="stylesheet" href="">
+    <style>
+.form_styled {
+  border: 2px solid #999;
+  background:#ececec;
+  padding: 20px;
+  border-radius: 10px;
+  width: 60%;
+}
+dl.partial  {
+  display:inline-block;
+  box-sizing: border-box;
+  padding-right: 20px;
+}
+.partial dd, .partial dt {
+  box-sizing: border-box;
+}
+.partial.city {
+  width: 50%;
+}
+.partial.state {
+  width: 25%;
+}
+.partial.zip {
+  width: 25%;
+  padding-right: 0 ;
+}
+.form_styled dd {
+  margin: 0;
+}
+.form_styled dt {
+  font-weight: bold;
+}
+.form_styled label {
+  display: inline-block;
+  padding-bottom: 10px;
+}
+.form_styled select {
+  height: 40px;
+  width: 100%;
+}
+
+.form_styled input[type="text"] {
+  border:2px solid #06c;
+  border-radius: 5px;
+  height: 40px;
+  width: 100%;
+  margin-bottom: 10px
+}
+    </style>
+  </head>
+  <body>
+
+    <div class="form_styled" >
+      <dl>
+        <dt><label for="name" >Name</label></dt>
+        <dd><input type="text" id="name" /></dd>
+      </dl>
+
+      <dl>
+        <dt><label for="adrs" >Address</label></dt>
+        <dd><input type="text" id="adrs" /></dd>
+        <dd><input type="text"  id="adrs2" /></dd>
+      </dl>
+      <dl  class="city partial">
+        <dt><label for="city" >City</label></dt>
+        <dd><input type="text" id="city" name="city" /></dd>
+      </dl><!--
+      --><dl  class="state partial">
+        <dt><label for="state" >State</label></dt>
+        <dd>
+        <select id="state"  >
+          <option value="AK" >AK</option>
+          <option value="AL" >AL</option>
+        </select>
+        </dd>
+      </dl><!--
+      --><dl  class="zip partial">
+        <dt ><label for="zip" >Zip </label></dt>
+        <dd><input type="text" id="zip"  name="zip"/></dd>
+      </dl>
+    </div>
+  </body>
+</html>
