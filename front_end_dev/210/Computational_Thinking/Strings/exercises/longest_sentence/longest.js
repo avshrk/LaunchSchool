@@ -29,7 +29,7 @@ var longText = 'Four score and seven years ago our fathers brought forth' +
   ' earth.';
 
 function longestSentence(text) {
-  var sentenceList = text.split(/[\.!\?]/).map(function(sentence){
+  var sentenceList = text.split(/[\.\!\?]/).map(function(sentence){
     return sentence.trim();
   }).sort(function(sentenceFirst, sentenceSecond){
     return wordCount(sentenceFirst) - wordCount(sentenceSecond);
