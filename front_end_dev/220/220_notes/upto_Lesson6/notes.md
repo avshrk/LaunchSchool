@@ -9,18 +9,15 @@ Object Methods are properties with function value. You can define methods: when 
 
 ### Object Methods
 
-
-
 ```javascript
-var people = {
-collection: [],
-fullname: function (person){
-console.log(person.firstName + ' ' + person.lastName);
-},
-rollCall: function(){
-this.collection.forEach(this.fullname);
-}
-}
-
+  var people = {
+    collection: [],
+    fullname: function (person){
+      console.log(person.firstName + ' ' + person.lastName);
+    },
+    rollCall: function(){
+      this.collection.forEach(this.fullname);
+    }
+  }
 ```
 
