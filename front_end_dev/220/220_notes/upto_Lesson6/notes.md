@@ -136,3 +136,12 @@ Object Factory:
 var hatcback = makeCar(9,6);
 ```
 
+### Object Orientation
+Object oriented programming is a pattern that uses objects as the basic building blocks, instead of variables and functions. Grouping related data together. The object oriented approach puts data and procedures into containers as objects. Smart objects that can perform action on the data they own. Complexity stays inside of an object, not exposed globally. Changes do not ripple through entire project.Duplication reduction is not the goal, side-effect. Makes code easier to understand, and maintain. Objects contain data/state or methods/behavior.
+
+- Organize related data and code together
+- useful when more than one instance required
+- more useful as code base gets larger
+
+## Function Context and Objects
+
