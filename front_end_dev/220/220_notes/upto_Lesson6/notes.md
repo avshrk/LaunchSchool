@@ -12,12 +12,62 @@ Object Methods are properties with function value. You can define methods: when 
 ```javascript
   var people = {
     collection: [],
-    fullname: function (person){
+    fullName: function (person){
       console.log(person.firstName + ' ' + person.lastName);
     },
     rollCall: function(){
-      this.collection.forEach(this.fullname);
-    }
+      this.collection.forEach(this.fullName);
+    },
+    add: function(){
+      if (this.isInvalidPerson){
+        return;
+      }
+      this.collection.push(person);
+    },
+    get: function(person){
+      if (this.isInvalidPerson){
+        return;
+      }
+     return this.collection[this.getIndex(person)];
+    },
+    update: function(person){
+      if (this.isInvalidPerson){
+        return;
+      }
+      var index = this.getIndex(person);
+      if (index === -1){
+        this.add(person);
+      } else {
+        this.collection[index] = person;
+      }
+    },
+    getIndex: function(person){
+      var index = -1;
+      this.collection.forEach(function(compare, i){
+        if (compare.firstName === person.firstName &&
+           compare.LasteName === person.lastName){
+             index = i;
+           }
+        return index;
+      });
+    },
+    remove: function(person){
+      if (this.isInvalidPerson){
+        return;
+      }
+
+      var index = this.getIndex(person);
+
+      if (index === -1 ){
+        return;
+      } else {
+        this.collection.splice(index,1);
+      }
+    },
+    isInvalidPerson: function(person){
+      return typeof person.firstName !== 'string' || typeof person.lastName !== 'string';
+    },
+
   }
 ```
 
