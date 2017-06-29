@@ -106,4 +106,33 @@ var invoices = {
 
 ```
 
+### Mutating Objects
+Primitive types are immutable. Objects are mutable. Function can alter the content of Objects passed in as arguments. It does so by reassigning a property. Variables holds references to values.
+
+### Functions as Object Factories
+Object collects related data and behavior.
+
+
+Object Factory:
+```javascript
+
+  function makeCar(speedRate, breakRate) {
+    return {
+      speed: 0,
+      breakRate: breakRate,
+      speedRate: speedRate,
+      accelerate: function(){
+        return this.speed += this.speedRate;
+      },
+      break: function(){
+        this.speed -= this.breakRate;
+        if (this.speed < 0 ){
+          this.speed = 0;
+        }
+      }
+    };
+  }
+
+var hatcback = makeCar(9,6);
+```
 

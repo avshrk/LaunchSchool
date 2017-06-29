@@ -1,33 +1,31 @@
-
-var invoices = {
-  unpaid: [],
-  paid: [],
-  add: function(name, amount){
-    this.unpaid.push({name: name, amount: amount});
-  },
-  totalAmount: function(collection){
-    return collection.reduce(function(total,invoice){
-      return total + invoice.amount;
-    },0);
-  },
-  totalDue: function(){
-    return this.totalAmount(this.unpaid);
-  },
-  totalPaid: function(){
-    return this.totalAmount(this.paid);
-  },
-  payInvoice: function(name){
-    var tempUnpaid = [];
-    this.unpaid.forEach(function(invoice){
-      if (name === invoice.name){
-        this.paid.push(invoice);
-      } else {
-        tempUnpaid.push(invoice);
+function makeCar(speedRate, breakRate) {
+  return {
+    speed: 0,
+    breakRate: breakRate,
+    speedRate: speedRate,
+    accelerate: function(){
+      return this.speed += this.speedRate;
+    },
+    break: function(){
+      this.speed -= this.breakRate;
+      if (this.speed < 0 ){
+        this.speed = 0;
       }
-    }, this);
+    }
+  };
+}
 
-    this.unpaid = tempUnpaid;
-  },
-};
+var hatcback = makeCar(9,6);
+hatcback.accelerate();
+hatcback.accelerate();
+hatcback.accelerate();
+console.log(hatcback.speed);
+hatcback.break();
+console.log(hatcback.speed);
+hatcback.break();
+console.log(hatcback.speed);
+hatcback.break();
+hatcback.break();
+hatcback.break();
 
-
+console.log(hatcback.speed);
