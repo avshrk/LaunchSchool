@@ -255,7 +255,7 @@ It returns a new function and permanently binds to an object (does not execute).
   num_total(); // outputs total of array
 
 ```
-## Dealing with Context loss 1
+## Dealing with Context loss
 ### Method loosing Context when taken out of Object
 
 When you remove method from its containing object and execute it.
@@ -322,7 +322,6 @@ Hard binding with bind.( when you can not update function or supply context )
   foo();
 
   ```
-## Dealing with Context loss 2
 ### Internal Function Loosing Method Context
 When function is not provided explicit context, it binds to global object, even when executed within another object.
 
@@ -378,7 +377,7 @@ Pass the context to internal functions.
 
 
 ```
-Bind the context with function expression
+Bind the context with function expression. Bind once and use it many times.
 
 ```javascript
   obj = {
@@ -395,6 +394,89 @@ Bind the context with function expression
 
   obj.foo(); // hello word
 
+```
 
+### Function as Argument Losing Surrounding Context
+
+```javascript
+
+  obj = {
+    a: 'hello',
+    b: 'world',
+    foo: function() {
+      [1, 2, 3].forEach(function(number) {
+        console.log(String(number) + ' ' + this.a + ' ' + this.b);
+      });
+    }
+  };
+
+  obj.foo(); // undefined undefined
 
 ```
+Using local variable in lexical scope:
+
+```javascript
+  obj = {
+    a: 'hello',
+    b: 'world',
+    foo: function() {
+      var self = this;
+      [1, 2, 3].forEach(function(number) {
+        console.log(String(number) + ' ' + self.a + ' ' + self.b);
+      });
+    }
+  };
+
+  obj.foo(); // hello world
+```
+Hand Binding
+
+```javascript
+  obj = {
+    a: 'hello',
+    b: 'world',
+    foo: function() {
+      [1, 2, 3].forEach(function(number) {
+        console.log(String(number) + ' ' + this.a + ' ' + this.b);
+      }.bind(this));
+    }
+  };
+
+  obj.foo(); // hello world
+```
+Use optional thisArg  argument
+```javascript
+  obj = {
+    a: 'hello',
+    b: 'world',
+    foo: function() {
+      [1, 2, 3].forEach(function(number) {
+        console.log(String(number) + ' ' + this.a + ' ' + this.b);
+      },this);
+    }
+  };
+
+  obj.foo(); // hello world
+```
+
+Summary of this:
+
+`this` current execution context of a function.
+
+4 function invocation types:
+- function : foo();
+- method: obj.foo();
+- consrutor: new foo();
+- indirect: foo.call()
+
+
+IIFE (immediately invoked function expression)
+```javascript
+var message = (function(name){ return 'hello ' + name; })('World');
+```
+`this` is a global object in a function invocation, undefined in strict mode
+
+Function call sets the execution context.
+
+# Closures and Functions Review
+
