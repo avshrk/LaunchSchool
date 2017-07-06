@@ -480,3 +480,56 @@ Function call sets the execution context.
 
 # Closures and Functions Review
 
+Function expression syntax of creating functions are good for passing/returning function.
+
+Function Lexical Rules:
+- it can access it's local variables.
+- it can access any variable within its scope when it was defined.
+
+## Higher Order Functions
+- A function that Accepts or returns a function.
+
+```javascript
+  // function passed as an argument
+  [1, 2, 3, 4].forEach(function(number) {
+    console.log(number);
+  });
+```
+
+```javascript
+  // function as return value
+  function helloFactory() {
+    return function() {
+      console.log("hi");
+    }
+  }
+
+  helloFactory(); //returns a function definition
+  helloFactory()();  //immediate function invocation
+  var hello = helloFactory(); //storing function in a variable
+  hello();  // invoking it later
+```
+
+```javascript
+  function timed(func) {
+    return function() {
+      var start = new Date();
+      func();
+      var stop = new Date();
+      console.log((stop - start).toString() + " ms have elapsed");
+    }
+  }
+
+  var timeHi = timed(function(){console.log('hi');});
+  timeHi();
+
+  var timeSomeFunc = timed(someFuncName);
+  timeSomeFunc();
+
+  timed(someOtherFunc)(); // Immediate invocation of returned function
+```
+
+## Closures and Private Data
+
+- Functions close over or enclose context at their definition point.
+- They always have access to that context.
