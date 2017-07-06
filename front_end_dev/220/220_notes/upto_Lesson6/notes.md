@@ -533,3 +533,83 @@ Function Lexical Rules:
 
 - Functions close over or enclose context at their definition point.
 - They always have access to that context.
+
+```javascript
+  function makeCounter() {
+    var count = 0;       // declare a new variable
+    return function() {
+      count += 1;        // references count from the outer scope
+      console.log(count);
+    }
+  }
+```
+- Partial application: Original function has some of its arguments defined.
+    ```javascript
+  function later(func, argument) {
+    return function() {
+     func(argument);
+    }
+  }
+
+    ```
+
+## Objects and Closures
+- Use closures to make data private.
+- To manipulate private data we need to have an access to original function definition.
+```javascript
+  var makeBank = function() {
+    var accounts = [];
+
+    function makeAccount(number) {
+      var balance = 0;
+      var transactions = [];
+
+      return {
+        deposit: function(amount) {
+          transactions.push({type: "deposit", amount: amount});
+          balance += amount;
+          return amount;
+        },
+        withdraw: function(amount) {
+          if (amount > balance) {
+            amount = balance;
+          }
+          transactions.push({type: "withdraw", amount: amount});
+          balance -= amount;
+          return amount;
+        },
+        balance: function() {
+          return balance;
+        },
+        number: function() {
+          return number;
+        },
+        transactions: function() {
+          return transactions;
+        }
+      };
+    }
+
+    return {
+      openAccount: function() {
+        var nextId = accounts.length + 101;
+        var account = makeAccount(nextId);
+        accounts.push(account);
+        return account;
+      },
+      transfer: function(source, destination, amount) {
+        return destination.deposit(source.withdraw(amount));
+      }
+    };
+  }
+
+   var bank = makeBank();
+   var account = bank.openAccount();
+
+   account.balance()
+   account.deposit(17);
+
+   var secondAccount = bank.openAccount();
+   secondAccount.number();
+```
+
