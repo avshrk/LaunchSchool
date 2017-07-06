@@ -300,7 +300,7 @@ Pass in desired context.
 
   foo();
 ```
-Hard binding with bind.
+Hard binding with bind.( when you can not update function or supply context )
 
 ```Javascript
   function repeatThreeTimes(func){
@@ -320,4 +320,81 @@ Hard binding with bind.
   }
 
   foo();
+
+  ```
+## Dealing with Context loss 2
+### Internal Function Loosing Method Context
+When function is not provided explicit context, it binds to global object, even when executed within another object.
+
+```javascript
+  obj = {
+    a: 'hello',
+    b: 'world',
+    foo: function() {
+      function bar() {
+        console.log(this.a + ' ' + this.b);
+      }
+      bar();
+    }
+  };
+
+  obj.foo(); // undefined unedfined
+```
+
+solution:
+
+Preserve context with a local variable in the lexical scope
+```javascript
+  obj = {
+    a: 'hello',
+    b: 'world',
+    foo: function() {
+      var self = this;
+      function bar() {
+        console.log(self.a + ' ' + self.b);
+      }
+      bar();
+    }
+  };
+
+  obj.foo(); // hello word
+```
+Pass the context to internal functions.
+```javascript
+  obj = {
+    a: 'hello',
+    b: 'world',
+    foo: function() {
+      function bar() {
+        console.log(this.a + ' ' + this.b);
+      }
+
+      bar.call(this);
+    }
+  };
+
+  obj.foo(); // hello word
+
+
+
+```
+Bind the context with function expression
+
+```javascript
+  obj = {
+    a: 'hello',
+    b: 'world',
+    foo: function() {
+      var bar = function () {
+        console.log(this.a + ' ' + this.b);
+      }.bind(this);
+
+      bar();
+    }
+  };
+
+  obj.foo(); // hello word
+
+
+
 ```
