@@ -612,4 +612,31 @@ Function Lexical Rules:
    var secondAccount = bank.openAccount();
    secondAccount.number();
 ```
+## Garbage Collection
+- Memory is claimed when there is no more references to that specific object.
+
+## How Closures Effect Garbage Collection
+- JS can not garbage collect any objects or values referenced by closure.
+
+## Partial Function Application
+
+```javascript
+  function makeAddN(func, arg1) {
+    return function(arg2) {
+      return func(arg1, arg2);
+    }
+  }
+
+  function add(first, second){
+    return first + second ;
+  }
+
+  var add1 = makeAddN(add, 1);
+  add1(1);                           // => 2
+  add1(41);                          // => 42
+
+  var add9 = makeAddN(add,9);
+  add9(1);  // 10
+  add9(11); //20
+```
 
