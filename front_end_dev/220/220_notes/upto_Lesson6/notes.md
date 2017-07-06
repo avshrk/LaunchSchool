@@ -144,4 +144,6 @@ Object oriented programming is a pattern that uses objects as the basic building
 - more useful as code base gets larger
 
 ## Function Context and Objects
+Javascript has first class functions: add them to objects, execute them within objects context, remove them from objects, pass them to other functions, run them entirely different context. They have initially have no context, they receive when program executes. Javascript let developer control execution context.
 
+### Global Object
