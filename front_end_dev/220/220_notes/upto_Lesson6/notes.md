@@ -147,3 +147,85 @@ Object oriented programming is a pattern that uses objects as the basic building
 Javascript has first class functions: add them to objects, execute them within objects context, remove them from objects, pass them to other functions, run them entirely different context. They have initially have no context, they receive when program executes. Javascript let developer control execution context.
 
 ### Global Object
+
+Javascript global object, implicit execution context, window:browser, global:node.
+Global values: isNaN, window.Infinity
+
+### Global Variables and Function Declarations
+Global variables and functions are added to global object as properties.
+You can not delete variables that you defined, but you can delete the ones that you did not define.
+
+```javascript
+  var foo = 3;
+  window.foo; // 3
+
+  function bar() {
+    return 1;
+  }
+  window.bar(); // 1
+
+  moreFoo = 2 ;
+  window.moreFoo; //2
+  delete window.foo ; // false
+  delete window.moreFoo; //true
+```
+## Implicit and Explicit Function Execution Context
+### Implicit Function Execution Context
+Implicit function execution concept: implicit binding; invoke without supplying an explicit context; binds to global object. Within function 'this' refers to window object.
+Function binds to context when invoked/execute not when defined.
+Function is executed when () placed, returns code without it.
+
+```javascript
+  var obj = {
+   foo: function (){
+    return 'this here is ' + this;
+   },
+  }
+
+  obj.foo(); // this here is obj
+  var bar = obj.foo;
+  bar(); // this here is window
+
+```
+
+### Explicit Function Execution Context
+`call` and `apply` methods to change execution context. Explicitly bind a function's execution context to an object.
+```javascript
+  var a = 'global object';
+
+  function foo () {
+    return this.a;
+  }
+
+  var bar = {
+    a: 'bar object',
+  }
+
+  foo(); // global object
+  foo.call(bar); // bar object
+
+```
+
+Borrowing a method from an object:
+```javascript
+  var greeting = {
+   a: 'hello',
+   b: 'world',
+   foo: function() {
+     return this.a + '  ' + this.b;
+   }
+  };
+
+  var numbers = {
+    a: 1,
+    b: 2,
+  };
+
+  greeting.foo.call(numbers); // 1 2
+
+```
+Passing arguments with call and apply:
+foo.call(contextObject, arguments required by foo funtion)
+call : pass arguments after context
+apply: pass arguments as an array
+
