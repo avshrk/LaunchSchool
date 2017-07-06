@@ -227,7 +227,97 @@ Borrowing a method from an object:
 #### Passing arguments with call and apply:
 foo.call(contextObject, arguments required by foo funtion)
 
-call : pass arguments after context
+Call and apply executes the function.
+
+call : pass arguments after context, separated by commas
 
 apply: pass arguments as an array
 
+## Hard Binding - Permanently
+`bind` method, binding object to a function.
+
+It returns a new function and permanently binds to an object (does not execute).
+
+### Changing Function Context
+
+```Javascript
+  var num_list = [1,2,3,4,5];
+
+  function total() {
+    var total ;
+    for(var i = 0; i < this.length ; i++){
+      total += this[i];
+    }
+    return total;
+  }
+
+  var num_total = total.bind(num_list);
+  num_total(); // outputs total of array
+
+```
+## Dealing with Context loss 1
+### Method loosing Context when taken out of Object
+
+When you remove method from its containing object and execute it.
+```Javascript
+  function repeatThreeTimes(func){
+    func();
+    func();
+    func();
+  }
+  function foo() {
+    var john = {
+      name: 'john',
+      greet: function (){
+        console.log(this.name);
+      },
+    };
+
+    repeatThreeTimes(john.greet); // strips context
+  }
+
+  foo();
+```
+Solution:
+
+Pass in desired context.
+```Javascript
+  function repeatThreeTimes(func,context){
+    func.call(context);
+    func.call(context);
+    func.call(context);
+  }
+  function foo() {
+    var john = {
+      name: 'john',
+      greet: function (){
+        console.log(this.name);
+      },
+    };
+
+    repeatThreeTimes(john.greet, john); // pass context
+  }
+
+  foo();
+```
+Hard binding with bind.
+
+```Javascript
+  function repeatThreeTimes(func){
+    func();
+    func();
+    func();
+  }
+  function foo() {
+    var john = {
+      name: 'john',
+      greet: function (){
+        console.log(this.name);
+      },
+    };
+
+    repeatThreeTimes(john.greet.bind(john)); // bind permanently
+  }
+
+  foo();
+```
