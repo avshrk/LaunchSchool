@@ -224,8 +224,10 @@ Borrowing a method from an object:
   greeting.foo.call(numbers); // 1 2
 
 ```
-Passing arguments with call and apply:
+#### Passing arguments with call and apply:
 foo.call(contextObject, arguments required by foo funtion)
+
 call : pass arguments after context
+
 apply: pass arguments as an array
 
