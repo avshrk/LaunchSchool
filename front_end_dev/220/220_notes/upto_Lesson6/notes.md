@@ -8,7 +8,28 @@
 
 - `this` : reference to the object itself. Function use it to access/change objects properties.
 - Object Methods are properties with function value.
-- You can define methods: when you create objects, add them anytime later.
+- You can define methods when you create objects
+    ```javascript
+  var car = {
+    fuel: 7.8,
+    running: false,
+    start: function() {
+      this.running = true;
+    }
+  };
+    ```
+- You can add methods after
+    ```javascript
+  var car.stop = function () {
+    this.running = false;
+  }
+
+  car.drive = function (distance) {
+    var fuelUsed = distance / 52;
+    this.fuel -= fuelUsed;
+  };
+
+    ```
 
 ### Object Methods
 
