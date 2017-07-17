@@ -6,8 +6,9 @@
 
 ### Function and Method Invocation
 
-`this` is a reference to the object itself. Function use it to access/change objects properties.
-Object Methods are properties with function value. You can define methods: when you create objects, add them anytime later.
+- `this` : reference to the object itself. Function use it to access/change objects properties.
+- Object Methods are properties with function value.
+- You can define methods: when you create objects, add them anytime later.
 
 ### Object Methods
 
