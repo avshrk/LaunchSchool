@@ -1,6 +1,8 @@
 # Notes
 ## Objects and Methods
-Methods have receiver, functions don't. (Invocation - calling)
+ Methods -> explicit receiver
+
+ Function -> no explicit receiver
 
 ### Function and Method Invocation
 
