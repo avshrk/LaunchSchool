@@ -37,52 +37,52 @@
 
     ```
 #### Object Methods
-    ```javascript
-var people = {
-  collection: [me, mother, father],
-  fullName: function(person){
-    console.log(person.first_name + '  ' + person.last_name);
-  },
-  rollCall: function(){
-    this.collection.forEach(this.fullName);
-  },
-  add: function(person){
-    if (this.isInvalidPerson(person)) return;
+```javascript
+    var people = {
+      collection: [me, mother, father],
+      fullName: function(person){
+        console.log(person.first_name + '  ' + person.last_name);
+      },
+      rollCall: function(){
+        this.collection.forEach(this.fullName);
+      },
+      add: function(person){
+        if (this.isInvalidPerson(person)) return;
 
-    this.collection.push(person);
-  },
-  getIndex: function(person){
-    return this.collection.findIndex(function(element,index){
-      return element.first_name === person.first_name &&
-        element.last_name === person.last_name;
-    });
-  },
-  remove: function(person){
-    if (this.isInvalidPerson(person)) return;
+        this.collection.push(person);
+      },
+      getIndex: function(person){
+        return this.collection.findIndex(function(element,index){
+          return element.first_name === person.first_name &&
+            element.last_name === person.last_name;
+        });
+      },
+      remove: function(person){
+        if (this.isInvalidPerson(person)) return;
 
-    var index = this.getIndex(person);
-    if ( index === -1 ) return ;
+        var index = this.getIndex(person);
+        if ( index === -1 ) return ;
 
-    this.collection.splice(index,1);
-  },
-  isInvalidPerson: function(person){
-    return (typeof person.first_name !== 'string' ||
-      typeof person.last_name !== 'string');
-  },
-  get: function(person){
-    if (this.isInvalidPerson(person)) return;
+        this.collection.splice(index,1);
+      },
+      isInvalidPerson: function(person){
+        return (typeof person.first_name !== 'string' ||
+          typeof person.last_name !== 'string');
+      },
+      get: function(person){
+        if (this.isInvalidPerson(person)) return;
 
-    return this.collection[this.getIndex(person)];
-  },
-  update: function(person){
-    var index = this.getIndex(person);
+        return this.collection[this.getIndex(person)];
+      },
+      update: function(person){
+        var index = this.getIndex(person);
 
-    if (index === -1 ){
-      this.add(person);
-    } else {
-      this.collection[index] = person;
-    }
-  }
-};
+        if (index === -1 ){
+          this.add(person);
+        } else {
+          this.collection[index] = person;
+        }
+      }
+    };
 
-     ```
+```
