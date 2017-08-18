@@ -4,5 +4,9 @@
 - JavaScript contains Methods and Properties.
 - Methods: Functions with receiver
 - Function: without receiver
-- Function Invocation and Method Invocation
 
+```Javascript
+  greeter.morning();  // Method Invocation
+  evening(); // Function Invocation
+
+```
