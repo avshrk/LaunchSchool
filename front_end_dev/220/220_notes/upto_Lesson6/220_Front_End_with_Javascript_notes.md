@@ -123,4 +123,21 @@ var invoices = {
   },
 };
 ```
+### Mutating Objects
+
+- Primitive types are immutable
+- Objects are mutable
+- Primitive types copied by value
+- Object/reference types copied by reference.
+- primitive values: number, string, boolean, null, undefined, symbol
+- primitive types are stored on stack ( fast, limited in space )
+- reference types values ( objects and arrays )  are stored on the heap: takes longer, hold more information.
+- reference to heap stored in stack-
+- when object created reference stored in stack, data stored in heap
+- pointer/reference gets copied-
+- `.slice()` method by itself, creates and returns a new array
+
+### Functions as Object Factories
+
+
 
