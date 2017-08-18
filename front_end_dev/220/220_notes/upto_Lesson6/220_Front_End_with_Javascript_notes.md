@@ -13,8 +13,6 @@
   functionGreeter(); // function invocation
 
   evening(); // Function Invocation
+```
 
 ### `this` during Method Invocation
-
-
-```
