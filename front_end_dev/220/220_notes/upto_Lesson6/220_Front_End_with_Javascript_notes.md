@@ -7,6 +7,11 @@
 
 ```Javascript
   greeter.morning();  // Method Invocation
+
+  functionGreeter = greeter.morning;
+
+  functionGreeter(); // function invocation
+
   evening(); // Function Invocation
 
 ```
