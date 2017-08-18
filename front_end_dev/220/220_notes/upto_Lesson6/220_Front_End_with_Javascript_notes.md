@@ -139,5 +139,25 @@ var invoices = {
 
 ### Functions as Object Factories
 
+- Object is an organizational tool that collects state/data and behavior together.
+- Benefits becomes evident when more than one instance used.
+- Object Factories
+```Javascript
+
+  var makeCar = function(rate, brake) {
+    return {
+      speed: 0,
+      accelerateRate: rate,
+      brakeRate: brake,
+      accelerate: function(){
+        this.speed += this.accelerateRate;
+      },
+      brake: function(){
+        this.speed -= this.brakeRate;
+        if (this.speed < 0) this.speed = 0;
+      },
+    };
+  };
 
 
+```
