@@ -23,12 +23,10 @@
   var car.stop = function () {
     this.running = false;
   }
-
   car.drive = function (distance) {
     var fuelUsed = distance / 52;
     this.fuel -= fuelUsed;
   };
-
     ```
 
 ### Object Methods
