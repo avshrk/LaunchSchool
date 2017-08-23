@@ -10,18 +10,32 @@
           }
         };
 
-        function evening() {
-          console.log('Good evening!');
-        }
-        var greeter = {
-          morning: function() {
-            console.log('Good morning!');
+        greeter.morning(); // invoke as method
+        functionGreeter = greeter.morning; // copies function definition
+        functionGreeter(); // invoke as function
+
+```
+
+* Value of `this`  is a reference to the object itself.
+
+```JavaScript
+        var counter = {
+          count: 0,
+          advance: function() {
+            this.count += 1;
           }
         };
 
-        function evening() {
-          console.log('Good evening!');
-        }
+        counter;                // { count: 0, advance: [Function] }
 
+        counter.advance();
+        counter;                // { count: 1, advance: [Function] }
+
+        counter.advance();
+        counter.advance();
+
+        counter;                // { count: 3, advance: [Function] }
 
 ```
+
+
