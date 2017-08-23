@@ -2,7 +2,7 @@
 ## Objects
 * Methods and Properties
 * Methods are functions with a receiver.
-
+```javascript
 
         var greeter = {
           morning: function() {
@@ -24,4 +24,4 @@
         }
 
 
-
+```
