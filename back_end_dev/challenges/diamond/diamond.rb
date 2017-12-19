@@ -14,8 +14,8 @@ class Diamond
       outter_space = SPACE * (@letters.size - indx - 1)
       inner_space = indx.positive? ? SPACE * ((2 * indx) - 1) : nil
       top << outter_space + each_letter +
-                  (inner_space ? inner_space + each_letter : EMPTY) +
-                  outter_space + "\n"
+        (inner_space ? inner_space + each_letter : EMPTY) +
+        outter_space + "\n"
     end
     top
   end

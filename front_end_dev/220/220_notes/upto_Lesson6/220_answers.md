@@ -35,7 +35,24 @@
         counter.advance();
 
         counter;                // { count: 3, advance: [Function] }
+```
+* Object methods are properties with function value.
+```JavaScript
+        // adding a method
+        counter.reduce = function(amount) {
+          this.count -= amount;
+        }
+        counter.reduce();
+
+        // adding a property
+        counter.stop = true;
 
 ```
+### Object Methods
+```JavaScript
+var me = {
+  first_name: 'Joe',
+  last_name: 'Doe'
+}
 
-
+```
